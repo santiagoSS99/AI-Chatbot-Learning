@@ -2,8 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 import OpenAI from 'openai';
 
-import { orthographyCheckUseCase } from './use-cases';
-import { OrthographyDto } from './dtos';
+import {
+  orthographyCheckUseCase,
+  prosConsDiscusserStreamUseCase,
+} from './use-cases';
+import { OrthographyDto, ProsConsDiscusserDto } from './dtos';
+import { prosConsDiscusserUseCase } from './use-cases/prosConsDiscusser.use-case';
 
 @Injectable()
 export class GptService {
@@ -13,24 +17,19 @@ export class GptService {
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  // from openai import OpenAI
-  // client = OpenAI()
-
-  // completion = client.chat.completions.create(
-  //   model="gpt-4.1",
-  //   messages=[
-  //       {
-  //           "role": "user",
-  //           "content": "Write a one-sentence bedtime story about a unicorn."
-  //       }
-  //   ]
-  // )
-
-  // print(completion.choices[0].message.content)
-
   async ortographyCheck(orthographyDto: OrthographyDto) {
     return await orthographyCheckUseCase(this.openai, {
       prompt: orthographyDto.prompt,
+    });
+  }
+  async prosConsDicusser(prosconsdiscusserDto: ProsConsDiscusserDto) {
+    return await prosConsDiscusserUseCase(this.openai, {
+      prompt: prosconsdiscusserDto.prompt,
+    });
+  }
+  async prosConsDicusserStream(prosconsdiscusserDto: ProsConsDiscusserDto) {
+    return await prosConsDiscusserStreamUseCase(this.openai, {
+      prompt: prosconsdiscusserDto.prompt,
     });
   }
 }
