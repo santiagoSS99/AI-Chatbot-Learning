@@ -16,10 +16,6 @@ export const translateUseCase = async (
         role: 'system',
         content: `Traduce el siguiente texto al idioma ${language}:${prompt}`,
       },
-      {
-        role: 'user',
-        content: prompt,
-      },
     ],
     model: 'chatgpt-4o-latest',
     temperature: 0.1,
