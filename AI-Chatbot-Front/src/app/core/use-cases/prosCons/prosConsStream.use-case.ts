@@ -1,6 +1,9 @@
 import { environment } from '../../../../environments/environment';
 
-export async function* prosConsStreamUseCase(prompt: string) {
+export async function* prosConsStreamUseCase(
+  prompt: string,
+  abortSignal: AbortSignal
+) {
   try {
     const response = await fetch(
       `${environment.backendaiApi}/pros-cons-discusser-stream`,
@@ -10,6 +13,7 @@ export async function* prosConsStreamUseCase(prompt: string) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ prompt }),
+        signal: abortSignal,
       }
     );
     if (!response.ok) throw new Error('No se puede realizar la comparación');
